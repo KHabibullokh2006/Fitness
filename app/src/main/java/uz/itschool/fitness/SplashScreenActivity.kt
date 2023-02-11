@@ -30,7 +30,6 @@ class SplashScreenActivity : AppCompatActivity() {
         handler.postDelayed({
             var intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
-            finish()
 
         },splashtime)
     }

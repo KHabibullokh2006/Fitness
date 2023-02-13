@@ -1,4 +1,11 @@
 package uz.itschool.fitness
 
-class User(var name:String, var username:String, var password:String) {
+import com.google.android.material.textfield.TextInputEditText
+
+class User(
+    var name: TextInputEditText, var username: TextInputEditText,
+    var phone: TextInputEditText, var email: TextInputEditText, var password: TextInputEditText
+) {
+
+
 }

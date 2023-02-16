@@ -3,6 +3,7 @@ package uz.itschool.fitness
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -11,7 +12,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class LoginActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -36,18 +36,20 @@ class LoginActivity : AppCompatActivity() {
         }
 
         signIn.setOnClickListener {
-        if (users==""){
-            Toast.makeText(this,"R", Toast.LENGTH_SHORT).show()
-        }else{
-            userList = gson.fromJson(users,convert)
-        }
-            for (user in userList) {
-                if (username.toString().equals(user.username) && password.toString().equals(user.password)){
-                    val intent = Intent(this,MainActivity::class.java)
-                    startActivity(intent)
+            if (users==""){
+                userList = gson.fromJson(users, convert)
+                Toast.makeText(this,"R", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Log.d("AAA", "onCreate: ")
+                userList = gson.fromJson(users, convert)
+                for (user in userList) {
+                    if (username.toString().equals(user.username) && password.toString().equals(user.password)){
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
         }
     }
-
 }

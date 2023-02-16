@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
@@ -49,11 +50,12 @@ class RegistrationActivity : AppCompatActivity() {
             userList.add(User(name,username,phone,email,password))
 
             val str = gson.toJson(userList)
-            edit.putString("users", str).apply()
-
-
-            val intent = Intent(this,LoginActivity::class.java)
-            startActivity(intent)
+            Log.d("STR", "onCreate: ")
+            edit.putString("users", str)
+            if (edit.commit()){
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
 
     }
@@ -68,13 +70,16 @@ class RegistrationActivity : AppCompatActivity() {
         rep_password = findViewById(R.id.rep_password)
     }
     private fun validate(){
-        if(name.equals("")|| username.equals("") || phone.equals("") || email.equals("") || password.equals("") || rep_password.equals("")){
-            Toast.makeText(this,"Fill the form fully", Toast.LENGTH_SHORT).show()
-        }
-        for (i in userList.indices){
-            if (username.toString().equals(userList[i].username)){
-                Toast.makeText(this,"User with this username already registered", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        if(name.equals("")|| username.equals("") || phone.equals("") || email.equals("") || password.equals("") || rep_password.equals("")){
+//            Toast.makeText(this,"Fill the form fully", Toast.LENGTH_SHORT).show()
+//        }
+//        if (password != rep_password){
+//            Toast.makeText(this,"Repeat password",Toast.LENGTH_LONG).show()
+//        }
+//        for (i in userList.indices){
+//            if (username.toString().equals(userList[i].username)){
+//                Toast.makeText(this,"User with this username already registered", Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
 }

@@ -2,6 +2,7 @@ package uz.itschool.fitness
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -21,14 +22,17 @@ class RegistrationActivity : AppCompatActivity() {
     lateinit var rep_password:TextInputEditText
 
     private lateinit var userList:MutableList<User>
-    val shared = getSharedPreferences("login", MODE_PRIVATE)
-    val edit = shared.edit()
-    private val gson = Gson()
-    val convert = object : TypeToken<List<User>>(){}.type
+
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+
+        val shared:SharedPreferences = getSharedPreferences("login", MODE_PRIVATE)
+        val edit = shared.edit()
+        val gson = Gson()
+        val convert = object : TypeToken<List<User>>(){}.type
 
          initUI()
 
@@ -66,6 +70,11 @@ class RegistrationActivity : AppCompatActivity() {
     private fun validate(){
         if(name.equals("")|| username.equals("") || phone.equals("") || email.equals("") || password.equals("") || rep_password.equals("")){
             Toast.makeText(this,"Fill the form fully", Toast.LENGTH_SHORT).show()
+        }
+        for (i in userList.indices){
+            if (username.toString().equals(userList[i].username)){
+                Toast.makeText(this,"User with this username already registered", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

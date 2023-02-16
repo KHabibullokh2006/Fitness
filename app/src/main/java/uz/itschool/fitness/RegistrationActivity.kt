@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
@@ -14,52 +13,52 @@ import com.google.gson.reflect.TypeToken
 
 class RegistrationActivity : AppCompatActivity() {
 
-    lateinit var reg: Button
-    lateinit var name: TextInputEditText
-    lateinit var username: TextInputEditText
-    lateinit var phone: TextInputEditText
-    lateinit var email: TextInputEditText
-    lateinit var password: TextInputEditText
-    lateinit var rep_password: TextInputEditText
+    lateinit var reg:Button
+    lateinit var name:TextInputEditText
+    lateinit var username:TextInputEditText
+    lateinit var phone:TextInputEditText
+    lateinit var email:TextInputEditText
+    lateinit var password:TextInputEditText
+    lateinit var rep_password:TextInputEditText
 
-    private lateinit var userList: MutableList<User>
+    private lateinit var userList:MutableList<User>
 
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
-        initUI()
-        val shared: SharedPreferences = getSharedPreferences("login", MODE_PRIVATE)
+
+        val shared:SharedPreferences = getSharedPreferences("login", MODE_PRIVATE)
         val edit = shared.edit()
         val gson = Gson()
-        val convert = object : TypeToken<List<User>>() {}.type
+        val convert = object : TypeToken<List<User>>(){}.type
 
-
+         initUI()
 
         reg.setOnClickListener {
             validate()
-            val users = shared.getString("users", "")
-            if (users == "") {
+            val users = shared.getString("users","")
+            if (users==""){
                 userList = mutableListOf()
-            } else {
-                userList = gson.fromJson(users, convert)
+            }
+            else{
+                userList=gson.fromJson(users,convert)
             }
 
-            userList.add(User(name.text.toString(), username.text.toString(), phone.text.toString(), email.text.toString(), password.text.toString()))
+            userList.add(User(name,username,phone,email,password))
 
-
-
-            var str = gson.toJson(userList)
+            val str = gson.toJson(userList)
             edit.putString("users", str).apply()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
 
+
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
         }
 
     }
 
-    private fun initUI() {
+    private fun initUI(){
         reg = findViewById(R.id.signup_reg)
         name = findViewById(R.id.name)
         username = findViewById(R.id.username)
@@ -68,18 +67,14 @@ class RegistrationActivity : AppCompatActivity() {
         password = findViewById(R.id.password)
         rep_password = findViewById(R.id.rep_password)
     }
-
-    private fun validate() {
-//        if(name.equals("")|| username.equals("") || phone.equals("") || email.equals("") || password.equals("") || rep_password.equals("")){
-//            Toast.makeText(this,"Fill the form fully", Toast.LENGTH_SHORT).show()
-//        }
-//        if (password != rep_password){
-//            Toast.makeText(this,"Repeat password",Toast.LENGTH_LONG).show()
-//        }
-//        for (i in userList.indices){
-//            if (username.toString().equals(userList[i].username)){
-//                Toast.makeText(this,"User with this username already registered", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+    private fun validate(){
+        if(name.equals("")|| username.equals("") || phone.equals("") || email.equals("") || password.equals("") || rep_password.equals("")){
+            Toast.makeText(this,"Fill the form fully", Toast.LENGTH_SHORT).show()
+        }
+        for (i in userList.indices){
+            if (username.toString().equals(userList[i].username)){
+                Toast.makeText(this,"User with this username already registered", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

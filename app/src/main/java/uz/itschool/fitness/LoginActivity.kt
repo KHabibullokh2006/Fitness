@@ -28,26 +28,24 @@ class LoginActivity : AppCompatActivity() {
         val convert = object : TypeToken<List<User>>(){}.type
         val users = shared.getString("users","")
 
-
-
         signUp.setOnClickListener {
             var intent = Intent(this,RegistrationActivity::class.java)
             startActivity(intent)
         }
 
         signIn.setOnClickListener {
-        if (users==""){
-            Toast.makeText(this,"R", Toast.LENGTH_SHORT).show()
-        }else{
             userList = gson.fromJson(users,convert)
-        }
-            for (user in userList) {
-                if (username.toString().equals(user.username) && password.toString().equals(user.password)){
-                    val intent = Intent(this,MainActivity::class.java)
-                    startActivity(intent)
+            if (users==""){
+                Toast.makeText(this,"R", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                for (user in userList) {
+                    if (username.toString() == user.username && password.toString() == user.password){
+                        val intent = Intent(this,MainActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             }
         }
     }
-
 }

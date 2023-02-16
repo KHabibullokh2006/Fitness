@@ -3,8 +3,8 @@ package uz.itschool.fitness
 import com.google.android.material.textfield.TextInputEditText
 
 class User(
-    var name: TextInputEditText, var username: TextInputEditText,
-    var phone: TextInputEditText, var email: TextInputEditText, var password: TextInputEditText
+    var name: String, var username: String,
+    var phone: String, var email: String, var password: String
 ) {
 
 

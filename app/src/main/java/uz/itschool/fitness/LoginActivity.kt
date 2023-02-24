@@ -3,6 +3,7 @@ package uz.itschool.fitness
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -22,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
         val password:TextInputEditText = findViewById(R.id.password)
         var forgot:Button = findViewById(R.id.forgotpassword)
 
-        var userList = mutableListOf<User>()
+        var userList: MutableList<User>
         val shared = getSharedPreferences("login", MODE_PRIVATE)
         val gson = Gson()
         val convert = object : TypeToken<List<User>>(){}.type
@@ -36,16 +37,20 @@ class LoginActivity : AppCompatActivity() {
         signIn.setOnClickListener {
             userList = gson.fromJson(users,convert)
             if (users==""){
-                Toast.makeText(this,"R", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Register", Toast.LENGTH_SHORT).show()
             }
             else{
                 for (user in userList) {
-                    if (username.toString() == user.username && password.toString() == user.password){
+                    if (username.text.toString() == user.username && password.text.toString() == user.password){
+                        Log.d("ABC", username.toString())
                         val intent = Intent(this,MainActivity::class.java)
+                        intent.putExtra("name",username.text.toString())
                         startActivity(intent)
                     }
                 }
             }
         }
+
+
     }
 }
